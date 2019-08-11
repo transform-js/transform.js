@@ -1,0 +1,44 @@
+{
+  "name": "transform.js",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "author": "Charles PAULET",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.5",
+    "babel-minify": "^0.5.0",
+    "jest": "^24.1.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ],
+    "plugins": [
+      [
+        "dynamic-import-node",
+        {
+          "noInterop": true
+        }
+      ]
+    ]
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "clear": "jest --clearCache",
+    "build": "babel sources --presets minify --out-dir lib"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.5",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-dynamic-import-node": "^2.2.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-minify": "^0.5.0"
+  }
+}
