@@ -1,9 +1,9 @@
 import Transform from "../../../sources/index.js";
 import CONSTANTS from "../../../sources/core/constants.js";
 
-describe("Test (to, interface) - test (identity)", () => {
+describe("Example (to, interface) - test (identity)", () => {
   /*
-    Using "test" interface on "test" identity.
+    Using "example" interface on "test" identity.
     "test" identity defines a "metrics" kind and a "json" lang. This is the
     configuration to be tested.
 
@@ -27,8 +27,8 @@ describe("Test (to, interface) - test (identity)", () => {
 
     const p = await new Transform(
       src,
+      CONSTANTS.TO.EXAMPLE,
       CONSTANTS.ID.TEST,
-      CONSTANTS.TO.TEST,
       CONSTANTS.KIND_METRICS
     );
     expect(p.format()).toEqual(expected);

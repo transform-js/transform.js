@@ -1,13 +1,13 @@
-import Itest from "../../sources/interfaces/test/Itest.js";
+import Iexample from "../../sources/interfaces/example/Iexample.js";
 import CONSTANTS from "../../sources/core/constants.js";
 
-describe("Itest", () => {
+describe("Iexample", () => {
   /*
     No mutation is defined for moo, hence, moo will not be kept. (see m_any mutation).
     baz is not existing as a placeholder ( $_('baz') ) in the template. It won't be
     kept either.
     Uppercase and uppercase + as_string applies to foo and bar keys in accordance
-    with the configuration ('Test' interface, 'test' identity, 'metrics' kind, 'json' lang)
+    with the configuration ('example' interface, 'test' identity, 'metrics' kind, 'json' lang)
   */
   test("Basic transformation", () => {
     const src = {
@@ -23,9 +23,9 @@ describe("Itest", () => {
       bar: "DEF"
     };
 
-    const dst = new Itest(
+    const dst = new Iexample(
       src,
-      CONSTANTS.TO.TEST,
+      CONSTANTS.ID.TEST,
       CONSTANTS.KIND_METRICS,
       CONSTANTS.LANG_JSON
     ).get();

@@ -4,12 +4,12 @@ import { InterfaceError } from "./errors.js";
 export default class Dispatcher {
   /*
     src: source data (the raw data to be transformed)
+    to: interface (your plugin code where you can pre/post process. See 'example')
     id: identity (Your configuration entrypoint. See 'test')
-    to: interface (your plugin code where you can pre/post process. See 'test')
     kind: kind of data (e.g. metrics, errors)
     lang: template format (e.g. json, xml, custom)
   */
-  constructor(src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
+  constructor(src, to, id, kind, lang = CONSTANTS.LANG_JSON) {
     return new Promise(async (resolve, reject) => {
       try {
         import("../interfaces/" + to + "/I" + to + ".js").then(I => {

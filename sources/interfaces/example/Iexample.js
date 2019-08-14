@@ -3,7 +3,7 @@ import Formatter from "../../core/formatter.js";
 import { InterfaceError } from "../../core/errors.js";
 import CONFIG from "./config.js";
 
-class Itest extends Imother {
+class Iexample extends Imother {
   constructor(src, id, kind, lang) {
     super();
     try {
@@ -17,4 +17,4 @@ class Itest extends Imother {
   }
 }
 
-export default Itest;
+export default Iexample;

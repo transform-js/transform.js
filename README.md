@@ -1,11 +1,12 @@
 # transform.js
 
-Transform.js allows you to syntaxically transform your data. This may be useful when you wan't to forward / amend one's api message to an other one. 
+Transform.js allows you to syntaxically transform your data. This may be useful when you wan't to forward / amend one's api message to an other one.
 
 ## Example :
 
 Let's say you wan't to forward an error message to your [PRTG](https://www.paessler.com/manuals/prtg/custom_sensors#advanced_sensors) platform.
 Here is your source message, JSON formatted :
+
 ```
 {
   "message": "Unable to retrieve metrics"
@@ -13,6 +14,7 @@ Here is your source message, JSON formatted :
 ```
 
 Here is what you expect, also, JSON formatted :
+
 ```
 {
   "prtg": {
@@ -27,7 +29,8 @@ In Transform.js you will have to define the following :
 - Interface: this piece of code is responsible for handling your data from source to destination formats. Interface makes your transformation more flexible, you can add pre/post processing code, loop the formatter, define your own configuration, ...
 - Config: you must define your configuration, that is, all the required functions to perform the transformation.
 
-According to this example, you will have to create the following files (you can mimic the 'test' interface)
+According to this example, you will have to create the following files (you can mimic the 'example' interface)
+
 - `sources/interfaces/prtg/Iprtg.js`: where you export your interface
 - `sources/interfaces/prtg/config.js`: where you export your configuration
 
@@ -64,6 +67,7 @@ export default {
 ```
 
 where `m.m_any` is a base mutation from `/sources/core/mutations.js` :
+
 ```
 export const m_any = (dst, s) => {
   return s;
@@ -90,8 +94,9 @@ export default class Iprtg extends Imother {
 ```
 
 About the parameters:
+
 - `src`: source data (the error message to be transformed)
-- `id`: the target identity (_default)
+- `id`: the target identity (\_default)
 - `kind`: the kind of data to be transformed (errors)
 - `lang`: the lang used to perform syntax operations (json)
 

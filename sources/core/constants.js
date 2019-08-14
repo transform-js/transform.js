@@ -8,10 +8,10 @@ export default {
 
   /* USER CONSTANTS */
   TO: {
-    TEST: "test"
+    EXAMPLE: "example"
   },
 
   ID: {
-    TEST: "Test"
+    TEST: "test"
   }
 };
