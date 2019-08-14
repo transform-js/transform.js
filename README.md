@@ -76,6 +76,11 @@ export default {
 - `errors_template`: the template to be filled with the transformed data
 - `errors_operations`: the data mutations to be performed
 
+
+#### About the template:
+
+Template destination placeholder (to) must be surrounded by `${_("` and `")}` guards. This allows placeholders tracking during template parsing.
+
 #### About the operations:
 
 An operation defines a set of mutations and some placeholder values for source (from) and destination (to) or both (placeholder). Here is a mutation that takes the source value at location `resource.value`, fills the template with the capitalized version at location `resource.value`:
