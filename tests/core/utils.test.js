@@ -49,12 +49,33 @@ describe("jsonSetbyPath", () => {
 });
 
 describe("jsonRemoveKeysContaining", () => {
-  it("complete", () => {
+  it("simple, depth = 0", () => {
     let j = {
       foo: CONSTANTS.MAGIC
     };
     jsonRemoveKeysContaining(j, CONSTANTS.MAGIC);
     expect(j).toStrictEqual({});
+  });
+
+  it("nested, depth = 1", () => {
+    let j = {
+      foo: CONSTANTS.MAGIC,
+      bar: {
+        foo: ["foo", CONSTANTS.MAGIC],
+        bar: {},
+        baz: CONSTANTS.MAGIC
+      },
+      baz: "baz"
+    };
+    const e = {
+      bar: {
+        foo: ["foo"],
+        bar: {}
+      },
+      baz: "baz"
+    };
+    jsonRemoveKeysContaining(j, CONSTANTS.MAGIC);
+    expect(j).toStrictEqual(e);
   });
 });
 

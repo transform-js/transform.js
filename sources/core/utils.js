@@ -27,34 +27,27 @@ export const jsonSetbyPath = (obj, val, path) => {
 
 /* remove all keys/value pair for a given 'filter' value */
 export const jsonRemoveKeysContaining = (j, filter /* = CONSTANTS.MAGIC */) => {
-  Object.keys(j).forEach(k => {
-    if (j[k].constructor === Object) {
+  Object.entries(j).forEach(([k, v]) => {
+    if (v && v.constructor === Object)
       /* recursive */
-      jsonRemoveKeysContaining(j[k]);
-    } else {
-      j[k] === filter && delete j[k];
-    }
+      jsonRemoveKeysContaining(v, filter);
+    if (v.constructor === Array) j[k] = v.filter(e => e !== filter);
+    if (v === filter) delete j[k];
   });
+  return j;
 };
 
 /* Remove null/undefined/zero-length objects/arrays */
 export const cleanObject = object => {
   Object.entries(object).forEach(([k, v]) => {
-    if (v && v.constructor === Object)
-      /* recursive */
-      cleanObject(v);
+    if (v && v.constructor === Object) cleanObject(v);
     if (
       (v && v.constructor === Object && !Object.keys(v).length) ||
       v === null ||
       v === undefined ||
       v.length === 0
     ) {
-      if (Array.isArray(object))
-        /* remove elem k */
-        object.splice(k, 1);
-      else if (!(v instanceof Date))
-        /* remove key k */
-        delete object[k];
+      if (!(v instanceof Date)) delete object[k];
     }
   });
   return object;
