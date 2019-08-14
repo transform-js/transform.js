@@ -36,7 +36,7 @@ According to this example, you will have to create the following files (you can 
 - `sources/interfaces/prtg/Iprtg.js`: where you export your interface
 - `sources/interfaces/prtg/config.js`: where you export your configuration
 
-Your interface must extends Imother and write formatted data in `dst` variable.
+Your interface must extends Imother and return formatted data from `.get()` method.
 
 ### A working config.js for our example would be:
 
@@ -143,15 +143,20 @@ In this example, our variadic function is m_chain. This one will act as a unary 
 
 ```
 import Formatter from "../../core/formatter.js";
-import CONFIG from "./config.js";
+imports
 
 export default class Iprtg extends Imother {
   constructor(src, id, kind, lang) {
-    try {
-      const template = CONFIG[id][kind][lang].errors_template;
-      const operations = CONFIG[id][kind][lang].errors_operations;
+    super();
+    this.src = src; this.id = id; this.kind = kind; this.lang = lang;
+  }
 
-      this.dst = new Formatter(this.src, operations, template).format();
+  get() {
+    try {
+      const template = CONFIG[this.id][this.kind][this.lang].tpl;
+      const operations = CONFIG[this.id][this.kind][this.lang].operations;
+      
+      return new Formatter(this.src, operations, template).format();
     } catch (e) {
       throw new InterfaceError(e.message);
     }
