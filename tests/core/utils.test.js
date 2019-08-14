@@ -96,7 +96,10 @@ describe("cleanObject", () => {
         baz: []
       }
     };
-    const e = { foo: "bar", waldo: { foo: "bar" } };
+    const e = {
+      foo: "bar",
+      waldo: { foo: "bar" }
+    };
     expect(cleanObject(o)).toStrictEqual(e);
   });
 });

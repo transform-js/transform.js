@@ -47,7 +47,7 @@ export const cleanObject = object => {
       v === undefined ||
       v.length === 0
     ) {
-      if (!(v instanceof Date)) delete object[k];
+      delete object[k];
     }
   });
   return object;
