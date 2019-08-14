@@ -1,7 +1,8 @@
 import {
   TemplatesError,
   InterfaceError,
-  FormatterError
+  FormatterError,
+  MutationError
 } from "../../sources/core/errors.js";
 
 describe("Errors", () => {
@@ -10,6 +11,7 @@ describe("Errors", () => {
       throw new TemplatesError();
     };
     expect(t).toThrow(TemplatesError);
+    expect(t).toThrow(Error);
   });
 
   test("InterfaceError", () => {
@@ -17,6 +19,7 @@ describe("Errors", () => {
       throw new InterfaceError();
     };
     expect(t).toThrow(InterfaceError);
+    expect(t).toThrow(Error);
   });
 
   test("FormatterError", () => {
@@ -24,5 +27,14 @@ describe("Errors", () => {
       throw new FormatterError();
     };
     expect(t).toThrow(FormatterError);
+    expect(t).toThrow(Error);
+  });
+
+  test("MutationError", () => {
+    const t = () => {
+      throw new MutationError();
+    };
+    expect(t).toThrow(MutationError);
+    expect(t).toThrow(Error);
   });
 });

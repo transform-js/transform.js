@@ -22,4 +22,12 @@ class FormatterError extends Error {
   }
 }
 
-export { TemplatesError, InterfaceError, FormatterError };
+class MutationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "MutationError";
+    this.message = message;
+  }
+}
+
+export { TemplatesError, InterfaceError, FormatterError, MutationError };

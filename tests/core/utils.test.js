@@ -7,40 +7,40 @@ import {
 import CONSTANTS from "../../sources/core/constants.js";
 
 describe("jsonGetByPath", () => {
-  test("simple, depth = 0", () => {
+  it("simple, depth = 0", () => {
     const j = { foo: "bar" };
     expect(jsonGetByPath(j, "foo")).toStrictEqual("bar");
   });
 
-  test("nested, depth = 1", () => {
+  it("nested, depth = 1", () => {
     const j = { foo: { foo: "bar" } };
     expect(jsonGetByPath(j, "foo.foo")).toStrictEqual("bar");
   });
 });
 
 describe("jsonSetbyPath", () => {
-  test("simple, depth = 0", () => {
+  it("simple, depth = 0", () => {
     let j = { foo: "bar" };
     const e = { foo: "baz" };
     jsonSetbyPath(j, "baz", "foo");
     expect(j).toStrictEqual(e);
   });
 
-  test("nested, depth = 1", () => {
+  it("nested, depth = 1", () => {
     let j = { foo: { foo: "bar" } };
     const e = { foo: { foo: "baz" } };
     jsonSetbyPath(j, "baz", "foo.foo");
     expect(j).toStrictEqual(e);
   });
 
-  test("create new path, depth = 0", () => {
+  it("create new path, depth = 0", () => {
     let j = { foo: "foo" };
     const e = { foo: "foo", bar: "bar" };
     jsonSetbyPath(j, "bar", "bar");
     expect(j).toStrictEqual(e);
   });
 
-  test("create new path, depth = 1", () => {
+  it("create new path, depth = 1", () => {
     let j = { foo: "foo" };
     const e = { foo: "foo", bar: { bar: "bar" } };
     jsonSetbyPath(j, "bar", "bar.bar");
@@ -49,7 +49,7 @@ describe("jsonSetbyPath", () => {
 });
 
 describe("jsonRemoveKeysContaining", () => {
-  test("complete", () => {
+  it("complete", () => {
     let j = {
       foo: CONSTANTS.MAGIC
     };
@@ -59,7 +59,7 @@ describe("jsonRemoveKeysContaining", () => {
 });
 
 describe("cleanObject", () => {
-  test("complete", () => {
+  it("complete", () => {
     let o = {
       foo: "bar",
       bar: "",
