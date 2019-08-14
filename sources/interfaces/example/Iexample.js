@@ -6,14 +6,25 @@ import CONFIG from "./config.js";
 class Iexample extends Imother {
   constructor(src, id, kind, lang) {
     super();
-    try {
-      const template = CONFIG[id][kind][lang].tpl;
-      const operations = CONFIG[id][kind][lang].operations;
+    this.src = src;
+    this.id = id;
+    this.kind = kind;
+    this.lang = lang;
+  }
 
-      this.dst = new Formatter(src, operations, template).format();
+  get() {
+    try {
+      const template = CONFIG[this.id][this.kind][this.lang].tpl;
+      const operations = CONFIG[this.id][this.kind][this.lang].operations;
+
+      return new Formatter(this.src, operations, template).format();
     } catch (e) {
       throw new InterfaceError(e.message);
     }
+  }
+
+  callee(whatever) {
+    return whatever;
   }
 }
 

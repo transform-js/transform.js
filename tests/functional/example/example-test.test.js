@@ -1,6 +1,13 @@
 import Transform from "../../../sources/index.js";
 import CONSTANTS from "../../../sources/core/constants.js";
 
+const src = {
+  test_metrics: {
+    foo: "foo",
+    bar: "bar"
+  }
+};
+
 describe("Example (to, interface) - test (identity)", () => {
   /*
     Using "example" interface on "test" identity.
@@ -12,14 +19,7 @@ describe("Example (to, interface) - test (identity)", () => {
     - foo is applied an uppercase mutation ;
     - bar is applied a chaining mutation of uppercase and as_string.
   */
-  test("complete transformation", async () => {
-    const src = {
-      test_metrics: {
-        foo: "foo",
-        bar: "bar"
-      }
-    };
-
+  it("transforms data", async () => {
     const expected = {
       foo: "FOO",
       bar: "BAR"
@@ -32,5 +32,15 @@ describe("Example (to, interface) - test (identity)", () => {
       CONSTANTS.KIND_METRICS
     );
     expect(p.format()).toEqual(expected);
+  });
+
+  it("can post/pre process", async () => {
+    const p = await new Transform(
+      src,
+      CONSTANTS.TO.EXAMPLE,
+      CONSTANTS.ID.TEST,
+      CONSTANTS.KIND_METRICS
+    );
+    expect(p.call("callee", 42)).toEqual(42);
   });
 });
