@@ -2,7 +2,12 @@
 
 Transform.js allows you to syntaxically transform your data. This may be useful when you wan't to forward / amend one's api message to another one.
 
-## Example :
+## Getting started
+
+- Build library: `npm run build`. build in `/lib`
+- Test library: `npm run test`. Clear jest cache with `npm run clear`
+
+## Example
 
 Let's say you wan't to forward an error message to your [PRTG](https://www.paessler.com/manuals/prtg/custom_sensors#advanced_sensors) platform.
 Here is your source message, JSON formatted :
@@ -38,12 +43,12 @@ According to this example, you will have to create the following files (you can 
 
 Your interface must extends Imother and return formatted data from `.get()` method.
 
-### A working config.js for our example would be:
+#### A working config.js for our example would be:
 
 ```
 import * as m from "./mutations.js"
 
-ERRORS_TPL = '{ \
+const ERRORS_TPL = '{ \
   "prtg": { \
     "error": "1", \
     "text": "${_("prtg.text")}" \
@@ -68,7 +73,7 @@ export default {
 }
 ```
 
-#### About the configuration:
+##### About the configuration:
 
 - `_default`: the identity name
 - `errors`: the kind of data (in a prtg example, you would have kinds like 'errors' and 'metrics')
@@ -77,11 +82,11 @@ export default {
 - `errors_operations`: the data mutations to be performed
 
 
-#### About the template:
+##### About the template:
 
 Template destination placeholder (to) must be surrounded by `${_("` and `")}` guards. This allows placeholders tracking during template parsing.
 
-#### About the operations:
+##### About the operations:
 
 An operation defines a set of mutations and some placeholder values for source (from) and destination (to) or both (placeholder). Here is a mutation that takes the source value at location `resource.value`, fills the template with the capitalized version at location `resource.value`:
 
@@ -92,11 +97,11 @@ An operation defines a set of mutations and some placeholder values for source (
 }
 ```
 
-#### About the mutations
+##### About the mutations
 
 There is some default mutations defined in the core: `/sources/core/mutations.js`. There is two kinds of mutations:
 
-##### unary mutations
+###### unary mutations
 
 Unary mutations are 1-ary functions that mutates a copy of the value pointed by the source placeholder (from). This value is then written at the destination placeholder pointed position in intermediate representation (to).
 
@@ -116,7 +121,7 @@ Its returned value will be written in the template at the location pointed by th
 n.b. : you may introduce more than one mutation in the mutations element by passing an array.
 
 
-##### variadic mutations: 
+###### variadic mutations: 
 
 Variadic mutations are n-ary functions that are used to transform a value from the source to the destination nearly the same way as a unary mutation. The difference remains in that we can add additional parameters to a variadic mutation.
 The nature of those additional parameters is not restricted.
@@ -139,7 +144,7 @@ Here is an example using three functions as arguments (additional parameters of 
 ```
 In this example, our variadic function is m_chain. This one will act as a unary mutation with a carry on the partial results of arguments (m_retype_number_to_string, m_retype_string_to_number, m_any).
 
-### And a working interface would be:
+#### And a working interface would be:
 
 ```
 import Formatter from "../../core/formatter.js";
@@ -164,22 +169,22 @@ export default class Iprtg extends Imother {
 }
 ```
 
-### About the interface parameters:
+#### About the interface parameters:
 
 - `src`: source data (the error message to be transformed)
 - `id`: the target identity (\_default)
 - `kind`: the kind of data to be transformed (errors)
 - `lang`: the lang used to perform syntax operations (json)
 
-### About the formatter parameters:
+#### About the formatter parameters:
 
 - `src`: again, source data (the error message to be transformed)
 - `operations`: the operations defined for the identity transformation in the configuration
 - `template`: the template where to fill the transformed data. Also defined in the configuration
 
-## Test
+### Test
 
-We can now test our interface.
+We can now test our interface, let's write the test in `/tests/interfaces/Iprtg.test.js`
 
 ```
 import Transform from "../../../sources/index.js"                 // import library under name Transform
