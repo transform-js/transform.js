@@ -1,10 +1,12 @@
 import Templates from "./templates.js";
 import { FormatterError } from "./errors.js";
 import { jsonGetByPath, jsonSetbyPath, cleanObject } from "./utils.js";
+import CONSTANTS from "./constants.js";
 
 export default class Formatter {
   constructor(src, ops, template) {
-    this.dst = {}; /* dst is the return value */
+    /* dst is the return value */
+    this.dst = {};
     this.templatesManager = Templates(template);
 
     /* Iterate operations */
@@ -15,7 +17,10 @@ export default class Formatter {
     });
   }
 
-  format() {
+  format(lang = CONSTANTS.LANG_JSON) {
+    if (lang !== CONSTANTS.LANG_JSON)
+      throw new FormatterError("Only json is supported at the moment");
+
     const prepared = this.templatesManager.prepare();
     //console.log("Prepared template =", prepared);
     const vars = this.templatesManager.getTemplateVars();
@@ -25,10 +30,6 @@ export default class Formatter {
     const cleaned = cleanObject(filled);
     //console.log("Cleaned template =", JSON.stringify(cleaned));
     return cleaned;
-  }
-
-  getTemplateVars() {
-    return this.dst;
   }
 
   arrayify(m) {
