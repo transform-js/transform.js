@@ -1,4 +1,4 @@
-class TemplatesError extends Error {
+export class TemplatesError extends Error {
   constructor(message) {
     super(message);
     this.name = "TemplatesError";
@@ -6,7 +6,7 @@ class TemplatesError extends Error {
   }
 }
 
-class InterfaceError extends Error {
+export class InterfaceError extends Error {
   constructor(message) {
     super(message);
     this.name = "InterfaceError";
@@ -14,7 +14,7 @@ class InterfaceError extends Error {
   }
 }
 
-class FormatterError extends Error {
+export class FormatterError extends Error {
   constructor(message) {
     super(message);
     this.name = "FormatterError";
@@ -22,12 +22,10 @@ class FormatterError extends Error {
   }
 }
 
-class MutationError extends Error {
+export class MutationError extends Error {
   constructor(message) {
     super(message);
     this.name = "MutationError";
     this.message = message;
   }
 }
-
-export { TemplatesError, InterfaceError, FormatterError, MutationError };

@@ -2,7 +2,7 @@ import Templates from "./templates.js";
 import { FormatterError } from "./errors.js";
 import { jsonGetByPath, jsonSetbyPath, cleanObject } from "./utils.js";
 
-class Formatter {
+export default class Formatter {
   constructor(src, ops, template) {
     this.dst = {}; /* dst is the return value */
     this.templatesManager = Templates(template);
@@ -78,5 +78,3 @@ class Formatter {
     );
   }
 }
-
-export default Formatter;

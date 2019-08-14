@@ -1,7 +1,7 @@
 import CONSTANTS from "./constants.js";
 import { InterfaceError } from "./errors.js";
 
-class Dispatcher {
+export default class Dispatcher {
   /*
     src: source data (the raw data to be transformed)
     id: identity (Your configuration entrypoint. See 'test')
@@ -43,5 +43,3 @@ class Dispatcher {
     }
   }
 }
-
-export default Dispatcher;
