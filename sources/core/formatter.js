@@ -7,7 +7,7 @@ export default class Formatter {
   constructor(src, ops, template) {
     /* dst is the return value */
     this.dst = {};
-    this.templatesManager = Templates(template);
+    this.templatesManager = new Templates(template);
 
     /* Iterate operations */
     ops.forEach(o => {
