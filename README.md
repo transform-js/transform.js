@@ -7,6 +7,8 @@ Transform.js allows you to syntaxically transform your data. This may be useful 
 - Build library: `npm run build`. build in `/lib`
 - Test library: `npm run test`. Clear jest cache with `npm run clear`
 
+You can try the `example` interface using this [project](https://github.com/valkheim/transform.js-client).
+
 ## Example
 
 Let's say you wan't to forward an error message to your [PRTG](https://www.paessler.com/manuals/prtg/custom_sensors#advanced_sensors) platform.
