@@ -25,7 +25,7 @@ export const m_as_string = (dst, s, base = 10) => {
 export const m_uppercase = (dst, v) => {
   try {
     return v.toUpperCase();
-  } catch {
+  } catch (e) {
     throw new MutationError();
   }
 };
@@ -39,7 +39,7 @@ export const m_chain = (dst, toBeOperatedOn, fs) => {
   /* array of mutations and mutation chaining are similar */
   try {
     return fs.reduce((acc, f) => f(dst, acc), toBeOperatedOn);
-  } catch {
+  } catch (e) {
     throw new MutationError();
   }
 };
