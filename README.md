@@ -1,6 +1,6 @@
 # transform.js
 
-Transform.js allows you to syntaxically transform your data. This may be useful when you wan't to forward / amend one's api message to another one.
+Transform.js allows you to syntaxically transform your data. This may be useful when you want to forward / amend one's api message to another one.
 
 ## Getting started
 
