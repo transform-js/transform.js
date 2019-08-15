@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jest --coverage",
     "clear": "jest --clearCache",
-    "build": "babel sources --presets minify --out-dir lib"
+    "build": "babel sources -d lib"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
@@ -15,7 +15,6 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.0.0",
     "babel-jest": "^23.4.2",
-    "babel-preset-minify": "^0.5.0",
     "jest": "^24.1.0"
   },
   "babel": {
@@ -23,6 +22,7 @@
       [
         "@babel/preset-env",
         {
+          "modules": "cjs",
           "targets": {
             "node": "current"
           }
@@ -30,12 +30,7 @@
       ]
     ],
     "plugins": [
-      [
-        "@babel/syntax-dynamic-import",
-        {
-          "noInterop": true
-        }
-      ]
+      "@babel/plugin-syntax-dynamic-import"
     ]
   }
 }
