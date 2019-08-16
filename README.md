@@ -7,7 +7,7 @@ Transform.js allows you to syntaxically transform your data. This may be useful 
 - Build library: `npm run build`. build in `/lib`
 - Test library: `npm run test`. Clear jest cache with `npm run clear`
 
-You can try the `example` interface using this [project](https://github.com/valkheim/transform.js-client).
+You can try the library plugged with the `example` interface using this [project](https://github.com/valkheim/transform.js-client).
 
 ## Example
 
