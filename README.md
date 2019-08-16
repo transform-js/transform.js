@@ -12,7 +12,8 @@ You can try the library plugged with the `example` interface using this [project
 ## Example
 
 Let's say you wan't to forward an error message to your [PRTG](https://www.paessler.com/manuals/prtg/custom_sensors#advanced_sensors) platform.
-Here is your source message, JSON formatted :
+
+Here is your source message:
 
 ```
 {
@@ -20,7 +21,7 @@ Here is your source message, JSON formatted :
 }
 ```
 
-Here is what you expect, also, JSON formatted :
+And here is what you want from transform.js:
 
 ```
 {
@@ -31,21 +32,21 @@ Here is what you expect, also, JSON formatted :
 }
 ```
 
-### Interface and configuration
+Transform.js can take care of these kind of transformation.
+
+### Configuration and interface
 
 In Transform.js you will have to define the following :
 
-- Interface: this piece of code is responsible for handling your data from source to destination formats. Interface makes your transformation more flexible, you can add pre/post processing code, loop the formatter, define your own configuration, ...
 - Configuration: you must define your configuration, that is, all the required functions to perform the transformation.
+- Interface: this piece of code is responsible for handling your data from source to destination formats. Interface makes your transformation more flexible, you can add pre/post processing code, loop the formatter, redefine the configuration, ...
 
-According to this example, you will have to create the following files (you can mimic the 'example' interface)
+Following the PRTG example, you will have to create the following files (you can mimic the 'example' interface):
 
-- `sources/interfaces/prtg/Iprtg.js`: where you export your interface
 - `sources/interfaces/prtg/config.js`: where you export your configuration
+- `sources/interfaces/prtg/Iprtg.js`: where you export your interface
 
-Your interface must extends Imother and return formatted data from `.get()` method.
-
-#### A working config.js for our example would be:
+#### And a working config.js for our example would be:
 
 ```
 import * as m from "./mutations.js"
@@ -77,12 +78,21 @@ export default {
 
 ##### About the configuration:
 
-- `_default`: the identity name
-- `errors`: the kind of data (in a prtg example, you would have kinds like 'errors' and 'metrics')
-- `json`: then destination language the formatter will deal with
+Configuration is built as a tree. From top to bottom:
+
+- identity: data type. In a monitoring context we may have an identity per sensor type
+- kind: defines the kind of data (e.g. sensor metrics, sensor errors)
+- lang: the required format
+
+Deeper levels are interface specific.
+
+In our example:
+
+- `_default`: our identity, a default one, like a fallback
+- `errors`: the kind of data (in a prtg example, you would have 'kinds' like 'errors' and 'metrics')
+- `json`: the destination language the formatter will deal with
 - `errors_template`: the template to be filled with the transformed data
 - `errors_operations`: the data mutations to be performed
-
 
 ##### About the template:
 
@@ -122,7 +132,6 @@ Its returned value will be written in the template at the location pointed by th
 
 n.b. : you may introduce more than one mutation in the mutations element by passing an array.
 
-
 ###### variadic mutations: 
 
 Variadic mutations are n-ary functions that are used to transform a value from the source to the destination nearly the same way as a unary mutation. The difference remains in that we can add additional parameters to a variadic mutation.
@@ -146,13 +155,13 @@ Here is an example using three functions as arguments (additional parameters of 
 ```
 In this example, our variadic function is m_chain. This one will act as a unary mutation with a carry on the partial results of arguments (m_retype_number_to_string, m_retype_string_to_number, m_any).
 
-#### And a working interface would be:
+#### And working interface for our example would be:
 
 ```
-import Formatter from "../../core/formatter.js";
-imports
+import Formatter from "../../core/formatter.js";                               // Importing the library formatter
+// other imports (e.g. your CONFIGuation, errors, base class, etc)
 
-export default class Iprtg extends Imother {
+export default class Iprtg extends Imother {                                   // Imother base interface class
   constructor(src, id, kind, lang) {
     super();
     this.src = src; this.id = id; this.kind = kind; this.lang = lang;
@@ -163,13 +172,15 @@ export default class Iprtg extends Imother {
       const template = CONFIG[this.id][this.kind][this.lang].tpl;
       const operations = CONFIG[this.id][this.kind][this.lang].operations;
       
-      return new Formatter(this.src, operations, template).format();
+      return new Formatter(this.src, operations, template).format();           // Requesting the formatted data
     } catch (e) {
       throw new InterfaceError(e.message);
     }
   }
 }
 ```
+
+Your interface should extends Imother and return formatted data from `.get()` method.
 
 #### About the interface parameters:
 
@@ -180,13 +191,13 @@ export default class Iprtg extends Imother {
 
 #### About the formatter parameters:
 
-- `src`: again, source data (the error message to be transformed)
+- `src`: source data (the error message to be transformed)
 - `operations`: the operations defined for the identity transformation in the configuration
 - `template`: the template where to fill the transformed data. Also defined in the configuration
 
-### Test
+### Testing the interface
 
-We can now test our interface, let's write the test in `/tests/interfaces/Iprtg.test.js`
+Let's write the test in `/tests/interfaces/Iprtg.test.js`:
 
 ```
 import Transform from "../../../sources/index.js"                 // import library under name Transform
