@@ -23,7 +23,7 @@ class Iexample extends Imother {
     }
   }
 
-  callee(whatever) {
+  static callee(whatever) {
     return whatever;
   }
 }

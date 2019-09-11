@@ -2,31 +2,18 @@ import CONSTANTS from "./constants.js";
 import { InterfaceError } from "./errors.js";
 
 export default class Dispatcher {
+  constructor() {}
+
   /*
     src: source data (the raw data to be transformed)
     to: interface (your plugin code where you can pre/post process. See 'example')
     id: identity (Your configuration entrypoint. See 'test')
     kind: kind of data (e.g. metrics, errors)
     lang: template format (e.g. json, xml, custom)
-  */
-  constructor(src, to, id, kind, lang = CONSTANTS.LANG_JSON) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        import("../interfaces/" + to + "/I" + to + ".js").then(I => {
-          this.I = new I.default(src, id.toLowerCase(), kind, lang);
-        });
-      } catch (ex) {
-        return reject(ex);
-      }
-      resolve(this);
-    });
-  }
-
-  /*
-    Your interface must return the transformed data in a 'dst' variable
-  */
-  format() {
-    return this.I.get();
+    */
+  async format(src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
+    const I = await import("../interfaces/"+to+"/I"+to+".js");
+    return new I.default(src, id.toLowerCase(), kind, lang).get();
   }
 
   /*
@@ -34,12 +21,12 @@ export default class Dispatcher {
     You can use it to reach some interface static code out of the transformation
     process. For example, you wan't to decide which 'kind' to use (e.g. metrics
     or errors) based on some external data (e.g. an http status code).
-  */
-  call(fn, ...args) {
+    */
+  async call(iface, fn, ...args) {
     try {
-      return this.I[fn](...args);
+      return iface[fn](...args);
     } catch (e) {
-      throw new InterfaceError("Function not found for that interface");
+      throw "Function not found for that interface"
     }
   }
 }

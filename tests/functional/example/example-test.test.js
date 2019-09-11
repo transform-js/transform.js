@@ -1,5 +1,6 @@
 import Transform from "../../../sources/index.js";
 import CONSTANTS from "../../../sources/core/constants.js";
+import Iexample from "../../../sources/interfaces/example/Iexample.js"
 
 const src = {
   test_metrics: {
@@ -25,22 +26,17 @@ describe("Example (to, interface) - test (identity)", () => {
       bar: "BAR"
     };
 
-    const p = await new Transform(
+    const p = new Transform();
+    expect(await p.format(
       src,
-      CONSTANTS.TO.EXAMPLE,
       CONSTANTS.ID.TEST,
+      CONSTANTS.TO.EXAMPLE,
       CONSTANTS.KIND_METRICS
-    );
-    expect(p.format()).toEqual(expected);
+    )).toEqual(expected);
   });
 
   it("can post/pre process", async () => {
-    const p = await new Transform(
-      src,
-      CONSTANTS.TO.EXAMPLE,
-      CONSTANTS.ID.TEST,
-      CONSTANTS.KIND_METRICS
-    );
-    expect(p.call("callee", 42)).toEqual(42);
+    const p = new Transform();
+    expect(await p.call(Iexample, "callee", 42)).toEqual(42);
   });
 });
