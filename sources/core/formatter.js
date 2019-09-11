@@ -65,7 +65,7 @@ export default class Formatter {
   unaryMutation(src, dst, placeholders, m) {
     /* replace placeholder pointed value according to the mutation function */
     const toBeOperatedOn = jsonGetByPath(src, placeholders.from);
-    jsonSetbyPath(dst, m(dst, toBeOperatedOn), placeholders.to);
+    jsonSetbyPath(dst, m(src, dst, toBeOperatedOn), placeholders.to);
   }
 
   /* mutation with multiple arguments */
@@ -74,7 +74,7 @@ export default class Formatter {
     const toBeOperatedOn = jsonGetByPath(src, placeholders.from);
     jsonSetbyPath(
       dst,
-      m.variadic(dst, toBeOperatedOn, m.arguments),
+      m.variadic(src, dst, toBeOperatedOn, m.arguments),
       placeholders.to
     );
   }
