@@ -7,7 +7,14 @@
   "scripts": {
     "test": "jest --coverage",
     "clear": "jest --clearCache",
-    "build": "babel sources -d lib"
+    "build": "babel sources -d lib",
+    "lint": "eslint sources"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test",
+      "pre-push": "npm run lint && npm test"
+    }
   },
   "repository": {
     "type": "git",
@@ -22,6 +29,13 @@
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.0.0",
     "babel-jest": "^23.4.2",
+    "eslint": "^6.4.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "husky": "^3.0.5",
     "jest": "^24.1.0"
   },
   "babel": {
