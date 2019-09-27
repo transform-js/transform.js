@@ -1,21 +1,21 @@
-import * as m from "../../core/mutations.js";
+import * as m from '../../core/mutations.js'
 
 export default {
   test: {
     metrics: {
       json: {
-        tpl:
+        tpl: // eslint-disable-next-line no-template-curly-in-string
           '{ "foo": "${_("foo")}", "bar": ${_("bar")}, "baz": "${_("baz")}", "moo": "${_("moo")}" }',
         /* no operations for baz / moo */
         operations: [
           {
-            from: "test_metrics.foo",
-            to: "foo",
+            from: 'test_metrics.foo',
+            to: 'foo',
             mutations: m.m_uppercase
           },
           {
-            from: "test_metrics.bar",
-            to: "bar",
+            from: 'test_metrics.bar',
+            to: 'bar',
             mutations: [
               {
                 /* will chain functions in .arguments */
@@ -33,4 +33,4 @@ export default {
       }
     }
   }
-};
+}

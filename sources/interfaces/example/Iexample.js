@@ -1,31 +1,31 @@
-import Imother from "../Imother.js";
-import Formatter from "../../core/formatter.js";
-import { InterfaceError } from "../../core/errors.js";
-import CONFIG from "./config.js";
+import Imother from '../Imother.js'
+import Formatter from '../../core/formatter.js'
+import { InterfaceError } from '../../core/errors.js'
+import CONFIG from './config.js'
 
 class Iexample extends Imother {
-  constructor(src, id, kind, lang) {
-    super();
-    this.src = src;
-    this.id = id;
-    this.kind = kind;
-    this.lang = lang;
+  constructor (src, id, kind, lang) {
+    super()
+    this.src = src
+    this.id = id
+    this.kind = kind
+    this.lang = lang
   }
 
-  get() {
+  get () {
     try {
-      const template = CONFIG[this.id][this.kind][this.lang].tpl;
-      const operations = CONFIG[this.id][this.kind][this.lang].operations;
+      const template = CONFIG[this.id][this.kind][this.lang].tpl
+      const operations = CONFIG[this.id][this.kind][this.lang].operations
 
-      return new Formatter(this.src, operations, template).format();
+      return new Formatter(this.src, operations, template).format()
     } catch (e) {
-      throw new InterfaceError(e.message);
+      throw new InterfaceError(e.message)
     }
   }
 
-  static callee(whatever) {
-    return whatever;
+  static callee (whatever) {
+    return whatever
   }
 }
 
-export default Iexample;
+export default Iexample
