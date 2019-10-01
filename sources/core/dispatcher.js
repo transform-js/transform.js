@@ -1,9 +1,6 @@
-import CONSTANTS from "./constants.js";
-import { InterfaceError } from "./errors.js";
+import CONSTANTS from './constants.js'
 
 export default class Dispatcher {
-  constructor() {}
-
   /*
     src: source data (the raw data to be transformed)
     to: interface (your plugin code where you can pre/post process. See 'example')
@@ -11,9 +8,9 @@ export default class Dispatcher {
     kind: kind of data (e.g. metrics, errors)
     lang: template format (e.g. json, xml, custom)
     */
-  async format(src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
-    const I = await import("../interfaces/"+to+"/I"+to+".js");
-    return new I.default(src, id.toLowerCase(), kind, lang).get();
+  async format (src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
+    const I = await import('../interfaces/' + to + '/I' + to + '.js')
+    return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
   }
 
   /*
@@ -22,11 +19,11 @@ export default class Dispatcher {
     process. For example, you wan't to decide which 'kind' to use (e.g. metrics
     or errors) based on some external data (e.g. an http status code).
     */
-  async call(iface, fn, ...args) {
+  async call (iface, fn, ...args) {
     try {
-      return iface[fn](...args);
+      return iface[fn](...args)
     } catch (e) {
-      throw "Function not found for that interface"
+      throw new Error('Function not found for that interface')
     }
   }
 }

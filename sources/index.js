@@ -1,3 +1,3 @@
-import Dispatcher from "./core/dispatcher.js";
+import Dispatcher from './core/dispatcher.js'
 
-export default Dispatcher;
+export default Dispatcher

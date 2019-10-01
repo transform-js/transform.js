@@ -1,74 +1,76 @@
-import CONSTANTS from "./constants.js";
-import { TemplatesError } from "./errors.js";
+import CONSTANTS from './constants.js'
+import { TemplatesError } from './errors.js'
 import {
   jsonGetByPath,
-  jsonSetbyPath,
   jsonRemoveKeysContaining
-} from "./utils.js";
+} from './utils.js'
 
-let _keys = [];
+let _keys = []
 
 /* _ function is called from the template, out of Templates scope */
+/* eslint-disable */
 const _ = key => {
   /* keep track of template keys */
-  _keys = [..._keys, key];
+  _keys = [..._keys, key]
   /* inject new var in template */
-  return "${" + key + "}";
-};
+  return '${' + key + '}'
+}
+/* eslint-enable */
 
 export default class Templates {
-  constructor(templateString) {
-    if (!templateString)
+  constructor (templateString) {
+    if (!templateString) {
       throw new TemplatesError(
-        "Please provide a template string for templates manager constructor"
-      );
-    _keys = [];
-    this._template = templateString;
+        'Please provide a template string for templates manager constructor'
+      )
+    }
+    _keys = []
+    this._template = templateString
   }
 
   /* return magic if value is undefined in dst */
-  getFillValue(dst, k, magic) {
-    const value = jsonGetByPath(dst, k);
-    return value === undefined ? magic : value;
+  getFillValue (dst, k, magic) {
+    const value = jsonGetByPath(dst, k)
+    return value === undefined ? magic : value
   }
 
   /* eval string, track template keys */
-  prepare(tpl = this._template) {
+  prepare (tpl = this._template) {
     /* eval template string, will hopefully call the underscore (_) function */
-    return eval("`" + tpl + "`");
+    return eval('`' + tpl + '`') // eslint-disable-line no-eval
   }
 
   /* fill prepared template with template values (dst) */
-  jsonFill(prepared, keys, dst) {
-    let filled = prepared;
+  jsonFill (prepared, keys, dst) {
+    let filled = prepared
     /* replace by value or by magic */
     keys.forEach(k => {
-      /* replace "${val}" by "magic" */
-      if (filled.includes('"${' + k + '}"'))
+      if (filled.includes('"${' + k + '}"')) {
+        /* replace "${val}" by "magic" */
         filled = filled.replace(
-          "${" + k + "}",
+          '${' + k + '}',
           this.getFillValue(dst, k, CONSTANTS.MAGIC)
-        );
-      /* or replace ${val} by "magic" */ else if (
-        filled.includes("${" + k + "}")
-      )
+        )
+      } else if (filled.includes('${' + k + '}')) {
+        /* or replace ${val} by "magic" */
         filled = filled.replace(
-          "${" + k + "}",
+          '${' + k + '}',
           this.getFillValue(dst, k, '"' + CONSTANTS.MAGIC + '"')
-        );
-    });
+        )
+      }
+    })
     /* get json from filled template */
     try {
-      filled = JSON.parse(filled);
+      filled = JSON.parse(filled)
     } catch (e) {
-      throw new TemplatesError("ParseError: cannot fill JSON");
+      throw new TemplatesError('ParseError: cannot fill JSON')
     }
     /* remove magicified keys */
-    jsonRemoveKeysContaining(filled, CONSTANTS.MAGIC);
-    return filled;
+    jsonRemoveKeysContaining(filled, CONSTANTS.MAGIC)
+    return filled
   }
 
-  getTemplateVars() {
-    return _keys;
+  getTemplateVars () {
+    return _keys
   }
 }
