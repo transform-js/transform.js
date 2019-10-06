@@ -9,8 +9,12 @@ export default class Dispatcher {
     lang: template format (e.g. json, xml, custom)
     */
   async format (src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
-    const I = await import('../interfaces/' + to + '/I' + to + '.js')
-    return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
+    try {
+      const I = await import('../interfaces/' + to + '/I' + to + '.js')
+      return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
+    } catch (e) {
+      throw new Error('Cannot import interface ' + to + '.')
+    }
   }
 
   /*
@@ -23,7 +27,7 @@ export default class Dispatcher {
     try {
       return iface[fn](...args)
     } catch (e) {
-      throw new Error('Function not found for that interface')
+      throw new Error('Function not found for that interface.')
     }
   }
 }
