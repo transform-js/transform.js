@@ -1,4 +1,5 @@
 import CONSTANTS from './constants.js'
+import { DispatcherError } from './errors.js'
 
 export default class Dispatcher {
   /*
@@ -13,7 +14,7 @@ export default class Dispatcher {
       const I = await import('../interfaces/' + to + '/I' + to + '.js')
       return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
     } catch (e) {
-      throw new Error('Cannot import interface ' + to + '.')
+      throw new DispatcherError('Cannot import interface ' + to + '.')
     }
   }
 
@@ -27,7 +28,7 @@ export default class Dispatcher {
     try {
       return iface[fn](...args)
     } catch (e) {
-      throw new Error('Function not found for that interface.')
+      throw new DispatcherError('Function not found for that interface.')
     }
   }
 }

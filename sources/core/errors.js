@@ -1,3 +1,11 @@
+export class DispatcherError extends Error {
+  constructor (message) {
+    super(message)
+    this.name = 'DispatcherError'
+    this.message = message
+  }
+}
+
 export class TemplatesError extends Error {
   constructor (message) {
     super(message)
