@@ -28,7 +28,7 @@ export default class Dispatcher {
       const I = await import(this.interfaces.get(to))
       return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
     } catch (e) {
-      throw new Error('Cannot import interface ' + to + '.')
+      throw new Error('Cannot use interface ' + to + '.')
     }
   }
 
