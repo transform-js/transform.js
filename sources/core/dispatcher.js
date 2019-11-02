@@ -2,6 +2,21 @@ import CONSTANTS from './constants.js'
 import { DispatcherError } from './errors.js'
 
 export default class Dispatcher {
+  constructor () {
+    this.interfaces = new Map([
+      ['example', '../interfaces/example/Iexample.js']
+    ])
+  }
+
+  /*
+    Add an interface configuration to the library. Call this prior to format()
+    to: identity name
+    path: interface path
+    */
+  addInterface (to, path) {
+    this.interfaces.set(to, path)
+  }
+
   /*
     src: source data (the raw data to be transformed)
     to: interface (your plugin code where you can pre/post process. See 'example')
@@ -11,7 +26,7 @@ export default class Dispatcher {
     */
   async format (src, id, to, kind, lang = CONSTANTS.LANG_JSON) {
     try {
-      const I = await import('../interfaces/' + to + '/I' + to + '.js')
+      const I = await import(this.interfaces.get(to))
       return new I.default(src, id.toLowerCase(), kind, lang).get() // eslint-disable-line new-cap
     } catch (e) {
       throw new DispatcherError('Cannot import interface ' + to + '.')
