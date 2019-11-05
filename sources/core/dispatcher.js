@@ -3,6 +3,9 @@ import { DispatcherError } from './errors.js'
 
 export default class Dispatcher {
   constructor () {
+    /*
+      Add default interfaces paths for the library
+      */
     this.interfaces = new Map([
       ['example', '../interfaces/example/Iexample.js']
     ])
