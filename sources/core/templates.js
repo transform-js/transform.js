@@ -5,7 +5,7 @@ import {
   jsonRemoveKeysContaining
 } from './utils.js'
 
-let _keys = []
+let _keys = [] // FIXME: keeps growing
 
 /* _ function is called from the template, out of Templates scope */
 /* eslint-disable */
